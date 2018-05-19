@@ -18,15 +18,18 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { createStackNavigator } from 'react-navigation';
 
-
 //Screens
 
 import Login from './Src/Screens/Login';
+import Register from './Src/Screens/Register';
+import Forget from './Src/Screens/Forget';
 
 
 const App = createStackNavigator(
   {
-  Login: Login
+  Login: Login,
+  Register: Register,
+  Forget: Forget
   },
   {
     initialRouteName: 'Login',

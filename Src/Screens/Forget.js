@@ -9,17 +9,13 @@ import {
     Animated,
     Alert
 } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import store from '../store';
-import {login} from '../actionCreators';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-import * as firebase from 'firebase';
 
-class Login extends Component{
+class Forget extends Component{
 
     state={
         animate: new Animated.Value(0),
-        email: "",
     }
 
     background = this.state.animate.interpolate({
@@ -29,9 +25,6 @@ class Login extends Component{
 
 
     componentWillMount(){
-
-        //Background anim
-
         Animated.loop(
             Animated.sequence([
                 Animated.timing(this.state.animate,{
@@ -56,14 +49,22 @@ class Login extends Component{
                 })
             ])
         ).start()
-        
     }
 
-    toRegister = () => this.props.navigation.navigate('Register');
+    backToLogin = () => {
+        this.props.navigation.navigate('Login')
+    }
 
-    toForget = () => this.props.navigation.navigate('Forget');
-
-    handleLogin= () => login(this.state.email,this.state.password)
+    handleSend = () => {
+        Alert.alert(
+            'Restore password',
+            'We send a restauration link to your email',
+            [
+              {text: 'Ok', onPress: ()=>{this.backToLogin()}}
+            ],
+            {cancelable: false}
+        )
+    }
 
     render(){
         return(
@@ -81,41 +82,22 @@ class Login extends Component{
             />
             <View style={this.style.inputContain} >
                 <View style={this.style.iconContainer} >
-                    <Icon name="email" size={20} color="#919191" />
+                    <Icon name="envelope" size={20} color="#919191" />
                 </View>
                 <TextInput 
                     style={this.style.input}
                     underlineColorAndroid="rgba(0,0,0,0)"
-                    placeholder="Email"
-                    keyboardType="email-address"
-                    value={this.state.email}
-                    onChangeText={(email)=>this.setState({email})}
+                    placeholder="email"
                 />
             </View>
-            <View style={this.style.inputContain} >
-                <View style={this.style.iconContainer} >
-                    <Icon name="lock" size={20} color="#919191" />
-                </View>
-                <TextInput 
-                    style={this.style.input}
-                    underlineColorAndroid="rgba(0,0,0,0)"
-                    placeholder="Password"
-                    secureTextEntry={true}
-                    value={this.state.password}
-                    onChangeText={(password)=>this.setState({password})}
-                />
-            </View>
-            <View style={this.style.optionsContaine} >
-                <TouchableOpacity  activeOpacity={.8} onPress={()=>this.toRegister()} >
-                    <Text style={this.style.loginText} >Register</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={.8} onPress={()=>this.toForget()} >
-                    <Text style={this.style.loginText} >Forget?</Text>
-                </TouchableOpacity>
-            </View>
-            <TouchableOpacity style={this.style.loginButton} activeOpacity={.8} onPress={()=>this.handleLogin()} >
-                <Text style={this.style.loginText} >Login</Text>
+            <TouchableOpacity style={this.style.loginButton} activeOpacity={.8} onPress={()=>this.handleSend()} >
+                <Text style={this.style.loginText} >Send</Text>
             </TouchableOpacity>
+            <View style={this.style.optionsContaine} >
+                <TouchableOpacity activeOpacity={.8} onPress={()=>this.backToLogin()} >
+                    <Text style={this.style.backText} >Back to login screen</Text>
+                </TouchableOpacity>
+            </View>
           </Animated.View>  
         );
     }
@@ -143,19 +125,24 @@ class Login extends Component{
         },
         optionsContaine:{
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             width: "80%",
-            marginBottom: 10,
+            marginTop: 10,
         },
         loginButton:{
             height: 40,
             width: 80,
-            backgroundColor: 'gray',
+            backgroundColor: '#dfe0e1',
             borderRadius: 5,
             alignItems: 'center',
             justifyContent: 'center',
         },
         loginText:{
+            fontFamily: 'Roboto',
+            color: '#6d6d6d',
+            fontWeight: 'bold',
+        },
+        backText:{
             fontFamily: 'Roboto',
             color: '#fff',
             fontWeight: 'bold',
@@ -164,4 +151,4 @@ class Login extends Component{
 }
 
 
-export default Login;
+export default Forget;
