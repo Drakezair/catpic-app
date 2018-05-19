@@ -114,7 +114,8 @@ class Login extends Component{
                 </TouchableOpacity>
             </View>
             <TouchableOpacity style={this.style.loginButton} activeOpacity={.8} onPress={()=>this.handleLogin()} >
-                <Text style={this.style.loginText} >Login</Text>
+
+                <Text style={{fontFamily: 'Roboto',color: '#6d6d6d',fontWeight: 'bold',}} >Login</Text>
             </TouchableOpacity>
           </Animated.View>  
         );
@@ -150,7 +151,7 @@ class Login extends Component{
         loginButton:{
             height: 40,
             width: 80,
-            backgroundColor: 'gray',
+            backgroundColor: '#dfe0e1',
             borderRadius: 5,
             alignItems: 'center',
             justifyContent: 'center',

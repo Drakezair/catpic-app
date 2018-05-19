@@ -46,8 +46,14 @@ const login = (email, pass) => {
     }
 }
 
-const register = (email, pass) => {
-
+const register = (username, email, pass, repass) => {
+    var obj = store.getState().users;
+    var arr = Object.keys(obj)
+    if(arr.includes(username)){
+        Alert.alert(`Sorry, ${username} is already in uso`)
+    }else if(pass !== repass){
+        Alert.alert(`The password must be the same`)
+    }
 }
 
-export { login };
+export { login, register };

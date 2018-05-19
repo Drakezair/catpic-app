@@ -10,13 +10,15 @@ import {
     ActivityIndicator
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import store from '../store';
+import {register} from '../actionCreators';
 
 class Register extends Component{
 
     state={
         animate: new Animated.Value(0),
-        loading: false
+        loading: false,
+        usersExist: [],
     }
 
     background = this.state.animate.interpolate({
@@ -50,9 +52,12 @@ class Register extends Component{
                 })
             ])
         ).start()
+
     }
 
     backToLogin = () => this.props.navigation.navigate('Login');
+
+    handleRegister= () => register(this.state.username,this.state.email,this.state.password,this.state.repassword);
 
     render(){
         if(!this.state.loading){
@@ -77,6 +82,8 @@ class Register extends Component{
                         style={this.style.input}
                         underlineColorAndroid="rgba(0,0,0,0)"
                         placeholder="Username"
+                        value={this.state.username}
+                        onChangeText={(username)=>this.setState({username})}
                     />
                 </View>
                 <View style={this.style.inputContain} >
@@ -87,7 +94,9 @@ class Register extends Component{
                         style={this.style.input}
                         underlineColorAndroid="rgba(0,0,0,0)"
                         placeholder="Email"
-                        secureTextEntry={true}
+                        keyboardType="email-address"
+                        value={this.state.email}
+                        onChangeText={(email)=>this.setState({email})}
                     />
                 </View>
                 <View style={this.style.inputContain} >
@@ -98,6 +107,9 @@ class Register extends Component{
                         style={this.style.input}
                         underlineColorAndroid="rgba(0,0,0,0)"
                         placeholder="Password"
+                        secureTextEntry={true} 
+                        value={this.state.password}
+                        onChangeText={(password)=>this.setState({password})}
                     />
                 </View>
                 <View style={this.style.inputContain} >
@@ -108,10 +120,13 @@ class Register extends Component{
                         style={this.style.input}
                         underlineColorAndroid="rgba(0,0,0,0)"
                         placeholder="Re-Password"
+                        secureTextEntry={true} 
+                        value={this.state.repassword}
+                        onChangeText={(repassword)=>this.setState({repassword})}
                     />
                 </View>
-                <TouchableOpacity style={this.style.loginButton} activeOpacity={.8} >
-                    <Text style={this.style.loginText} >Login</Text>
+                <TouchableOpacity style={this.style.loginButton} activeOpacity={.8} onPress={()=>this.handleRegister()} >
+                    <Text style={this.style.loginText} >Register</Text>
                 </TouchableOpacity>
                 <View style={this.style.optionsContaine} >
                     <TouchableOpacity activeOpacity={.8} onPress={()=>this.backToLogin()} >
@@ -150,7 +165,7 @@ class Register extends Component{
             flexDirection: 'row',
         },
         input:{
-            width: "90%"
+            width: "90%",
         },
         iconContainer:{
            alignItems: 'center',
