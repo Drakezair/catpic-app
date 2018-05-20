@@ -10,12 +10,12 @@ firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 firebase.auth().onAuthStateChanged((user)=>{
     if(user){
         store.dispatch({
-            type: "User",
-            user
+            type: "CURRENT_USER",
+            user:user
         });
     }else{
         store.dispatch({
-            type: "User",
+            type: "CURRENT_USER",
             user: null
         });
     }
@@ -53,6 +53,19 @@ const register = (username, email, pass, repass) => {
         Alert.alert(`Sorry, ${username} is already in uso`)
     }else if(pass !== repass){
         Alert.alert(`The password must be the same`)
+    }else{
+        firebase.auth().createUserWithEmailAndPassword(email, pass)
+        .then(()=>{
+            usersRef.child(`${username}`).set({
+                likes: 0,
+                posts: 0,
+                profileUrl:""
+            })
+        })
+        .catch((error)=>{
+
+            Alert.alert(error.message);
+        })
     }
 }
 

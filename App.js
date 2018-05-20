@@ -16,16 +16,18 @@ import {
   Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator, createDrawerNavigator  } from 'react-navigation';
 
 //Screens
 
+import Splash from './Src/Screens/Splash';
 import Login from './Src/Screens/Login';
 import Register from './Src/Screens/Register';
 import Forget from './Src/Screens/Forget';
+import Timeline from './Src/Screens/Timeline';
 
 
-const App = createStackNavigator(
+const Auth = createStackNavigator(
   {
   Login: Login,
   Register: Register,
@@ -40,6 +42,22 @@ const App = createStackNavigator(
     }
   }
 );
+
+const InApp = createDrawerNavigator({
+  timeline: Timeline,
+  aa: Login
+})
+
+const App = createSwitchNavigator(
+  {
+    splash: Splash,
+    auth: Auth,
+    inApp: InApp
+  },
+  {
+    initialRouteName:'splash'
+  }
+)
 
 export default App;
 
