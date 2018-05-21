@@ -4,14 +4,34 @@ import {
     Text,
     Image,
     StyleSheet,
-    FlatList
+    FlatList,
+    Alert
 }from 'react-native';
+import store from '../store';
+import * as firebase from 'firebase';
 
 import Post from './Post';
 
 class Timeline extends Component{
 
+    state={
+        posts: []
+    }
+
+    componentWillMount(){
+
+        //Post get
+
+        var postsRef = firebase.database().ref('posts');
+        postsRef.on('child_added',(snapshot)=>{
+            this.setState({
+                posts: this.state.posts.concat(snapshot.val())
+            })
+        })
+    }
+
     render(){
+       
         return(
             <View style={styles.container} >
                 <View style={styles.header} >
@@ -19,8 +39,8 @@ class Timeline extends Component{
                 </View>
                 <FlatList
                     style={styles.list}
-                    data={[{key: 'a'}, {key: 'b'},{key: 'b'},{key: 'b'}, {key: 'b'}, {key: 'b'}, {key: 'b'}, {key: 'b'}, {key: 'b'}, {key: 'b'}, {key: 'b'}, {key: 'b'}]}
-                     renderItem={({item}) => <Post />}
+                    data={this.state.posts}
+                    renderItem={({item}) => <Post item={item} />}
                 />
             </View>
         );

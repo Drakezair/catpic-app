@@ -7,7 +7,8 @@ import {
     Image,
     TouchableOpacity,
     Animated,
-    Alert
+    Alert,
+    ActivityIndicator
 } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import store from '../store';
@@ -19,7 +20,7 @@ class Login extends Component{
 
     state={
         animate: new Animated.Value(0),
-        email: "",
+        loading: false
     }
 
     background = this.state.animate.interpolate({
@@ -56,6 +57,12 @@ class Login extends Component{
                 })
             ])
         ).start()
+
+        store.subscribe(()=>{
+            this.setState({
+                loading : store.getState().loginLoader
+            })
+        })
         
     }
 
@@ -66,59 +73,74 @@ class Login extends Component{
     handleLogin= () => login(this.state.email,this.state.password)
 
     render(){
-        return(
-          <Animated.View 
-            style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: this.background
-            }} 
-          >
-            <Image 
-              source={require('../Assets/profile.png')}
-              style={this.style.image}
-            />
-            <View style={this.style.inputContain} >
-                <View style={this.style.iconContainer} >
-                    <Icon name="email" size={20} color="#919191" />
-                </View>
-                <TextInput 
-                    style={this.style.input}
-                    underlineColorAndroid="rgba(0,0,0,0)"
-                    placeholder="Email"
-                    keyboardType="email-address"
-                    value={this.state.email}
-                    onChangeText={(email)=>this.setState({email})}
+        if(!this.state.loading){
+            return(
+              <Animated.View 
+                style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: this.background
+                }} 
+              >
+                <Image 
+                  source={require('../Assets/profile.png')}
+                  style={this.style.image}
                 />
-            </View>
-            <View style={this.style.inputContain} >
-                <View style={this.style.iconContainer} >
-                    <Icon name="lock" size={20} color="#919191" />
+                <View style={this.style.inputContain} >
+                    <View style={this.style.iconContainer} >
+                        <Icon name="email" size={20} color="#919191" />
+                    </View>
+                    <TextInput 
+                        style={this.style.input}
+                        underlineColorAndroid="rgba(0,0,0,0)"
+                        placeholder="Email"
+                        keyboardType="email-address"
+                        value={this.state.email}
+                        onChangeText={(email)=>this.setState({email})}
+                    />
                 </View>
-                <TextInput 
-                    style={this.style.input}
-                    underlineColorAndroid="rgba(0,0,0,0)"
-                    placeholder="Password"
-                    secureTextEntry={true}
-                    value={this.state.password}
-                    onChangeText={(password)=>this.setState({password})}
-                />
-            </View>
-            <View style={this.style.optionsContaine} >
-                <TouchableOpacity  activeOpacity={.8} onPress={()=>this.toRegister()} >
-                    <Text style={this.style.loginText} >Register</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={.8} onPress={()=>this.toForget()} >
-                    <Text style={this.style.loginText} >Forget?</Text>
-                </TouchableOpacity>
-            </View>
-            <TouchableOpacity style={this.style.loginButton} activeOpacity={.8} onPress={()=>this.handleLogin()} >
+                <View style={this.style.inputContain} >
+                    <View style={this.style.iconContainer} >
+                        <Icon name="lock" size={20} color="#919191" />
+                    </View>
+                    <TextInput 
+                        style={this.style.input}
+                        underlineColorAndroid="rgba(0,0,0,0)"
+                        placeholder="Password"
+                        secureTextEntry={true}
+                        value={this.state.password}
+                        onChangeText={(password)=>this.setState({password})}
+                    />
+                </View>
+                <View style={this.style.optionsContaine} >
+                    <TouchableOpacity  activeOpacity={.8} onPress={()=>this.toRegister()} >
+                        <Text style={this.style.loginText} >Register</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={.8} onPress={()=>this.toForget()} >
+                        <Text style={this.style.loginText} >Forget?</Text>
+                    </TouchableOpacity>
+                </View>
+                <TouchableOpacity style={this.style.loginButton} activeOpacity={.8} onPress={()=>this.handleLogin()} >
 
-                <Text style={{fontFamily: 'Roboto',color: '#6d6d6d',fontWeight: 'bold',}} >Login</Text>
-            </TouchableOpacity>
-          </Animated.View>  
-        );
+                    <Text style={{fontFamily: 'Roboto',color: '#6d6d6d',fontWeight: 'bold',}} >Login</Text>
+                </TouchableOpacity>
+              </Animated.View>  
+            );
+        }else{
+            return(
+                <Animated.View 
+                    style={{
+                     flex: 1,
+                     justifyContent: "center",
+                     alignItems: "center",
+                     backgroundColor: this.background
+                    }} 
+                >
+                    <ActivityIndicator size={80} color="#fff" />
+                </Animated.View>
+            );
+        }
     }
 
     style = StyleSheet.create({

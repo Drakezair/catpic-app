@@ -2,6 +2,7 @@ import * as firebase from 'firebase';
 import store from './store';
 import {Alert} from 'react-native';
 
+
 //Persistant state
 firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
@@ -32,12 +33,22 @@ usersRef.on('value', snapshot =>{
     })
 })
 
+
+
 const login = (email, pass) => {
+    store.dispatch({
+        type: "LOGIN_LOADER",
+        loginLoader: true
+    })
     if(email && pass){
         firebase.auth().signInWithEmailAndPassword(email,pass)
         .catch((error)=>{
             //HandleErrors
             Alert.alert(error.message);
+            store.dispatch({
+                type: "LOGIN_LOADER",
+                loginLoader: false
+            })
         })
     }else if(!email){
         Alert.alert('email is required');
