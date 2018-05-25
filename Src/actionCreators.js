@@ -80,4 +80,13 @@ const register = (username, email, pass, repass) => {
     }
 }
 
-export { login, register };
+const draweAction = () =>{
+  store.dispatch({
+    type: "DRAWER",
+    toggle: !store.getState().toggle
+  })
+}
+
+
+
+export { login, register,draweAction };

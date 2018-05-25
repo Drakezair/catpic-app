@@ -29,7 +29,7 @@ class Login extends Component{
     })
 
 
-    componentWillMount(){
+    componentDidMount(){
 
         //Background anim
 

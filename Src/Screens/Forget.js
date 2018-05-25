@@ -24,7 +24,7 @@ class Forget extends Component{
     })
 
 
-    componentWillMount(){
+    componentDidMount(){
         Animated.loop(
             Animated.sequence([
                 Animated.timing(this.state.animate,{

@@ -20,7 +20,7 @@ class Splash extends Component{
     })
 
 
-    componentWillMount(){
+    componentDidMount(){
         Animated.loop(
             Animated.sequence([
                 Animated.timing(this.state.animate,{
@@ -57,15 +57,15 @@ class Splash extends Component{
 
     render(){
         return(
-            <Animated.View 
+            <Animated.View
                 style={{
                  flex: 1,
                  justifyContent: "center",
                  alignItems: "center",
                  backgroundColor: this.background
-                }} 
+                }}
             >
-                <Image 
+                <Image
                   source={require('../Assets/profile.png')}
                   style={{height: 80, width: 80}}
                 />

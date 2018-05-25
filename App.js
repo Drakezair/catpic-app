@@ -5,16 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Slider,
-  Modal,
-  Alert
-} from 'react-native';
+import {Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { createStackNavigator, createSwitchNavigator, createDrawerNavigator  } from 'react-navigation';
 
@@ -25,7 +16,9 @@ import Login from './Src/Screens/Login';
 import Register from './Src/Screens/Register';
 import Forget from './Src/Screens/Forget';
 import Timeline from './Src/Screens/Timeline';
+import Sidebar from './Src/Screens/Sidebar';
 
+const widthScreen = Dimensions.get('window').width
 
 const Auth = createStackNavigator(
   {
@@ -43,10 +36,17 @@ const Auth = createStackNavigator(
   }
 );
 
-const InApp = createDrawerNavigator({
-  timeline: Timeline,
-  aa: Login
-})
+const InApp = createDrawerNavigator(
+  {
+    timeline: Timeline,
+    login: Login
+  },
+  {
+    drawerPosition: 'right',
+    drawerWidth: widthScreen,
+    contentComponent: Sidebar,
+  }
+)
 
 const App = createSwitchNavigator(
   {
@@ -60,22 +60,3 @@ const App = createSwitchNavigator(
 )
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: "center",
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});

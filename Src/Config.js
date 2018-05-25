@@ -10,5 +10,5 @@ const config = {
   };
   firebase.initializeApp(config);
   
- 
+  console.ignoredYellowBox = ['Setting a timer'];
   export default config;

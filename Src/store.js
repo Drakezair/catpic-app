@@ -9,7 +9,7 @@ const reducer = (state, action) => {
         default:
             return state;
             break;
-        case "CURRENT_USER": 
+        case "CURRENT_USER":
             return {
                 ...state,
                 user: action.user
@@ -27,6 +27,11 @@ const reducer = (state, action) => {
                 loginLoader: action.loginLoader
             }
             break;
+        case "DRAWER":
+            return{
+              ...state,
+              toggle: action.toggle
+            }
     }
 }
 
@@ -34,4 +39,5 @@ export default createStore(reducer,{
     user: null,
     users: null,
     loginLoader: false,
- });
+    toggle: false
+})
