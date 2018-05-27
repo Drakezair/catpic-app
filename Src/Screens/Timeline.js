@@ -42,12 +42,15 @@ class Timeline extends Component{
 
     static router = Tab.router;
 
+    c
+
     render(){
 
         return(
             <View style={styles.container} >
               <View style={styles.header} >
                 <Image source={require('../Assets/whiteLogo.png')} style={{margin: 5,height:60, width:60}} />
+                <Text style={styles.headerText} >CatPic's</Text>
                 <TouchableOpacity style={styles.button} onPress={()=>draweAction()} >
                   <Icon name="bars" size={40} color="white" />
                 </TouchableOpacity>
@@ -69,6 +72,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#9226ba",
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center'
     },
     list:{
         flex: 1,
@@ -80,8 +84,8 @@ const styles = StyleSheet.create({
     headerText:{
       fontWeight: 'bold',
       fontFamily: 'Roboto',
-      fontSize: 20,
-      color: "#1f1f1f",
+      fontSize: 30,
+      color: "#fff",
       margin: 5
     },
     button:{

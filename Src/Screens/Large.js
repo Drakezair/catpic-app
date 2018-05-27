@@ -77,16 +77,16 @@ class Large extends Component{
       })
   }
 
-
   render(){
     return(
           <FlatList
             data={this.state.posts}
             onRefresh={()=>this.handleLimit()}
             refreshing={this.state.loadin}
+            removeClippedSubviews
             renderItem={({item})=>(
               <View style={styles.card} >
-                <TouchableOpacity >
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate('post',{item:item})} >
                   <Text style={styles.headerText} >{item.user}</Text>
                   <Image source={{uri: item.imgUrl}}
                     style={{

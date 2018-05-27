@@ -17,6 +17,7 @@ import Register from './Src/Screens/Register';
 import Forget from './Src/Screens/Forget';
 import Timeline from './Src/Screens/Timeline';
 import Sidebar from './Src/Screens/Sidebar';
+import Post from './Src/Screens/Post';
 
 const widthScreen = Dimensions.get('window').width
 
@@ -39,7 +40,8 @@ const Auth = createStackNavigator(
 const InApp = createDrawerNavigator(
   {
     timeline: Timeline,
-    login: Login
+    login: Login,
+    post: Post
   },
   {
     drawerPosition: 'right',

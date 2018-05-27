@@ -86,8 +86,9 @@ class Large extends Component{
             onRefresh={()=>this.handleLimit()}
             refreshing={this.state.loadin}
             numColumns={3}
+            removeClippedSubviews
             renderItem={({item})=>(
-              <TouchableOpacity >
+              <TouchableOpacity onPress={()=>this.props.navigation.navigate('post',{item:item})} >
                 <Image source={{uri: item.imgUrl}}
                   style={{
                     width: itemWidth / 3,

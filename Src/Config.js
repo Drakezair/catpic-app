@@ -1,4 +1,5 @@
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
+import { YellowBox } from 'react-native';
 
 const config = {
     apiKey: "AIzaSyCpeOtbDXyjAjbJN8sjOxKAE8WeqZ-al1U",
@@ -9,6 +10,7 @@ const config = {
     messagingSenderId: "411834796226"
   };
   firebase.initializeApp(config);
-  
+
   console.ignoredYellowBox = ['Setting a timer'];
+  YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
   export default config;
