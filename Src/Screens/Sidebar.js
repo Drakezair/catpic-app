@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     Dimensions,
     StyleSheet,
-    ActivityIndicator
+    ActivityIndicator,
+    Alert
 }from 'react-native';
 import store from '../store';
 import * as firebase from 'firebase';
@@ -62,39 +63,55 @@ class Sidebar extends Component{
 
     state={
         avatar: require('../Assets/Logo.png'),
-        loading: false,
-        loadin1: false
+        loadingUpload: false,
+        loadingAvatar: false,
+        username: ""
     }
 
-    componentDidMount(){
-      firebase.database().ref(`users/${store.getState().user.displayName}/profileUrl`)
-      .on('value',snapshot=>{
-        if(snapshot.val()){
+    componentWillMount(){
+      store.subscribe(()=>{
+        if(store.getState().user){
           this.setState({
-            avatar: {uri: snapshot.val()}
+            username: store.getState().user.displayName
           })
+
+
+          firebase.database().ref(`users/${store.getState().user.displayName}/profileUrl`)
+          .on('value',snapshot=>{
+            if(snapshot.val()){
+              this.setState({
+                avatar: {uri: snapshot.val()}
+              })
+            }
+          })
+
+        }else {
+          this.props.navigation.navigate('auth')
         }
       })
     }
 
+    componentDidMount(){
+    }
+
     handleUpload = () => {
-      if(!this.state.loading){
+      if(!this.state.loadingUpload){
         ImagePicker.showImagePicker(options,(response)=>{
           if(response.uri){
-            this.setState({loading: true})
+            this.setState({loadingUpload: true})
             UploadImage(response.uri,response.fileName)
             .then(responseData => {
               var newKey = firebase.database().ref().child('posts').push().key;
 
               firebase.database().ref('posts/' + newKey).set({
-                user: store.getState().user.displayName,
+                user: this.state.username,
                 likes: 0,
                 comments:"",
                 imgUrl:responseData,
                 key: newKey,
                 usersliked: ""
               })
-              .then(()=>this.setState({loading: false}))
+              .then(()=>this.setState({loadingUpload: false}))
             })
             .done()
           }
@@ -103,16 +120,16 @@ class Sidebar extends Component{
     }
 
     handleProfile = () => {
-      if(!this.state.loadin1){
+      if(!this.state.loadinAvatar){
         ImagePicker.showImagePicker(options,(response)=>{
           if(response.uri){
-            this.setState({loading1: true})
+            this.setState({loadingAvatar: true})
             UploadImage(response.uri,response.fileName)
             .then(responseData => {
               var newKey = firebase.database().ref().child('posts').push().key;
 
-              firebase.database().ref(`users/${store.getState().user.displayName}`).update({profileUrl:responseData})
-              .then(()=>this.setState({loading1: false}))
+              firebase.database().ref(`users/${this.state.username}`).update({profileUrl:responseData})
+              .then(()=>this.setState({loadingAvatar: false}))
             })
             .done()
           }
@@ -120,11 +137,26 @@ class Sidebar extends Component{
       }
     }
 
+    handleLogout = ()=>{
+      Alert.alert(
+        'Are you sure you want to leave?',
+        'Dude, just a few post, the rest can wait',
+        [
+          {text: 'NO'},
+          {text: 'Yes', onPress: () => {firebase.auth().signOut()} }
+        ],
+        { cancelable: false }
+      )
+    }
+
 
 
     render(){
-      const Indicator = () => {
-        return this.state.loading1 ? <ActivityIndicator size="large" style={styles.profileLoader} /> : null
+      const IndicatorUpload = () => {
+        return this.state.loadinUpload ? <ActivityIndicator size="large" /> : null
+      };
+      const IndicatorAvatar = () => {
+        return this.state.loadingAvatar ? <ActivityIndicator size="large" /> : null
       };
         return(
             <View style={styles.container} >
@@ -135,14 +167,19 @@ class Sidebar extends Component{
                 source={this.state.avatar}
                 style={styles.image}
               />
-              <Text style={styles.username} >{store.getState().user.displayName}</Text>
+              <Text style={styles.username} >{this.state.username}</Text>
               <TouchableOpacity style={styles.button} onPress={()=>this.handleProfile()} >
                 <Text style={styles.textButton} ><Icon name="edit" size={20} color="white" />Set profile pic</Text>
               </TouchableOpacity>
+              <IndicatorAvatar />
               <TouchableOpacity style={styles.button} onPress={()=>this.handleUpload()} >
                 <Text style={styles.textButton} ><Icon name="cloud-upload" size={20} color="white" />Set profile pic</Text>
               </TouchableOpacity>
-              <Indicator/>
+              <IndicatorUpload/>
+
+              <TouchableOpacity style={{position:'absolute', right:0, bottom: 0, margin: 15}} onPress={()=>this.handleLogout()} >
+                <Icon name="sign-out" color="#a333c8" size={40} />
+              </TouchableOpacity>
             </View>
         )
     }
@@ -185,12 +222,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15
   },
-  profileLoader:{
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    margin: 10
-  }
 });
 
 export default Sidebar;

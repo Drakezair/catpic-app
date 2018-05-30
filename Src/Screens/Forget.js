@@ -10,12 +10,14 @@ import {
     Alert
 } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import * as firebase from 'firebase';
 
 
 class Forget extends Component{
 
     state={
         animate: new Animated.Value(0),
+        emailAddress: ""
     }
 
     background = this.state.animate.interpolate({
@@ -56,11 +58,13 @@ class Forget extends Component{
     }
 
     handleSend = () => {
+
+
         Alert.alert(
             'Restore password',
             'We send a restauration link to your email',
             [
-              {text: 'Ok', onPress: ()=>{this.backToLogin()}}
+              {text: 'Ok', onPress: ()=>{  firebase.auth().sendPasswordResetEmail(this.state.emailAddress).then(()=> this.props.navigation.navigate('Login')) }}
             ],
             {cancelable: false}
         )
@@ -68,26 +72,27 @@ class Forget extends Component{
 
     render(){
         return(
-          <Animated.View 
+          <Animated.View
             style={{
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
                 backgroundColor: this.background
-            }} 
+            }}
           >
-            <Image 
+            <Image
               source={require('../Assets/profile.png')}
               style={this.style.image}
             />
             <View style={this.style.inputContain} >
-                <View style={this.style.iconContainer} >
-                    <Icon name="envelope" size={20} color="#919191" />
-                </View>
-                <TextInput 
-                    style={this.style.input}
-                    underlineColorAndroid="rgba(0,0,0,0)"
-                    placeholder="email"
+              <View style={this.style.iconContainer} >
+                <Icon name="envelope" size={20} color="#919191" />
+              </View>
+              <TextInput
+                style={this.style.input}
+                underlineColorAndroid="rgba(0,0,0,0)"
+                placeholder="email"
+                onChangeText={(text)=>this.setState({emailAddress: text})}
                 />
             </View>
             <TouchableOpacity style={this.style.loginButton} activeOpacity={.8} onPress={()=>this.handleSend()} >
@@ -98,7 +103,7 @@ class Forget extends Component{
                     <Text style={this.style.backText} >Back to login screen</Text>
                 </TouchableOpacity>
             </View>
-          </Animated.View>  
+          </Animated.View>
         );
     }
 

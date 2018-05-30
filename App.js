@@ -40,7 +40,6 @@ const Auth = createStackNavigator(
 const InApp = createDrawerNavigator(
   {
     timeline: Timeline,
-    login: Login,
     post: Post
   },
   {

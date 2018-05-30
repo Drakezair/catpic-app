@@ -58,18 +58,25 @@ class Splash extends Component{
     render(){
         return(
             <Animated.View
-                style={{
+              style={{
                  flex: 1,
                  justifyContent: "center",
                  alignItems: "center",
                  backgroundColor: this.background
-                }}
+              }}
             >
-                <Image
-                  source={require('../Assets/profile.png')}
-                  style={{height: 80, width: 80}}
-                />
-                <Text>CatPic's</Text>
+              <Image
+                source={require('../Assets/profile.png')}
+                style={{height: 80, width: 80}}
+              />
+              <Text
+                style={{
+                  color: '#ffffff',
+                  fontSize: 20,
+                  fontFamily: 'Roboto',
+                  fontWeight: 'bold'
+                }}
+              >CatPic's</Text>
             </Animated.View>
         )
     }

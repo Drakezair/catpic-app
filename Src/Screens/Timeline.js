@@ -42,7 +42,11 @@ class Timeline extends Component{
 
     static router = Tab.router;
 
-    c
+    componentWillMount(){
+        if(store.getState().user === null){
+          this.props.navigation.navigate('auth')
+        }
+    }
 
     render(){
 
