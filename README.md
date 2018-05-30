@@ -24,3 +24,7 @@ catpic's is designed with a mentality or with the pattern of development "Mobile
 what we want offer to users are new experiences, different and varied types of content, open the minds of the users and help them know. Many times there is a content type that we might like but that we still do not know and for that we create catpic's with an idea of free movement of media content.
 
 a curious about the name of the platform is due to the fact that originally the page was going to be a social network for cats.
+
+# Links
+* [Web.](drakezair.github.io/catpic)
+* [Download Apk](https://github.com/Drakezair/catpic-app/raw/master/CatPic.apk)
