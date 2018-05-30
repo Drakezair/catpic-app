@@ -26,5 +26,5 @@ what we want offer to users are new experiences, different and varied types of c
 a curious about the name of the platform is due to the fact that originally the page was going to be a social network for cats.
 
 # Links
-* [Web.](drakezair.github.io/catpic)
+* [Web.](https://drakezair.github.io/catpic)
 * [Download Apk](https://github.com/Drakezair/catpic-app/raw/master/CatPic.apk)
